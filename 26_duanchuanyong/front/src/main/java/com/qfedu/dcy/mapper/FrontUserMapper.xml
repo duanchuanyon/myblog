@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qfedu.dcy.mapper.FrontUserMapper">
+
+    <sql id="t_userColumn">
+        name,password,image,email,is_admin
+    </sql>
+
+    <sql id="t_userAllColumn">
+        id,name,password,image,email,is_admin
+    </sql>
+
+    <!-- 添加用户 -->
+    <insert id="insertUser">
+        insert into t_user (<include refid="t_userColumn"></include>)
+        values (#{name},#{password},#{image},#{email},0);
+    </insert>
+
+    <!-- 校验用户 -->
+    <select id="readUser" resultType="com.qfedu.dcy.entity.GUserEntity">
+        select <include refid="t_userAllColumn"></include>
+        from t_user
+        <where>
+            <if test="id != null and id > 0">
+                and id=#{id},
+            </if>
+
+            <if test="name != null and name !=''">
+                and name=#{name}
+            </if>
+
+            <if test="email != null and email !=''">
+                and email=#{email}
+            </if>
+
+        </where>
+    </select>
+
+    <!-- 用户登录-->
+    <select id="userLogin" resultType="com.qfedu.dcy.entity.GUserEntity">
+        select <include refid="t_userAllColumn"></include>
+        from t_user where email=#{email} and password=#{password}
+    </select>
+</mapper>

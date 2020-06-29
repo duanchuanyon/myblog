@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/26_duanchuanyong.iml" filepath="$PROJECT_DIR$/.idea/26_duanchuanyong.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aspectj/aspectj.iml" filepath="$PROJECT_DIR$/aspectj/aspectj.iml" />
+      <module fileurl="file://$PROJECT_DIR$/entity/entity.iml" filepath="$PROJECT_DIR$/entity/entity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fifter/fifter.iml" filepath="$PROJECT_DIR$/fifter/fifter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/front/front.iml" filepath="$PROJECT_DIR$/front/front.iml" />
+      <module fileurl="file://$PROJECT_DIR$/interc/interc.iml" filepath="$PROJECT_DIR$/interc/interc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/manager/manager.iml" filepath="$PROJECT_DIR$/manager/manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/super/super.iml" filepath="$PROJECT_DIR$/super/super.iml" />
+      <module fileurl="file://$PROJECT_DIR$/utils/utils.iml" filepath="$PROJECT_DIR$/utils/utils.iml" />
+    </modules>
+  </component>
+</project>

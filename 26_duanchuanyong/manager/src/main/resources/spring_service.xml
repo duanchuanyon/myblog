@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--针对我们代码的数据库进行事务管理; 使用aspectj来进行事务管理-->
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 开启注解方式声明事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <!-- 配置事务通知 -->
+    <tx:advice id="myAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="Exception"/>
+            <tx:method name="read*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="Exception"/>
+            <tx:method name="add*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="Exception"/>
+            <tx:method name="upd*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="Exception"/>
+            <tx:method name="del*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="Exception"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 配置顾问和切入点 -->
+    <aop:config>
+        <!-- 数据源事务管理 -->
+        <!-- 切入点 -->
+        <aop:pointcut id="myPointcut" expression="execution(* com.qfedu.dcy.service.*.*(..))"/>
+        <!-- 配置顾问-->
+        <aop:advisor advice-ref="myAdvice" pointcut-ref="myPointcut"/>
+    </aop:config>
+
+
+    <!-- service层事务增强 -->
+    <bean class="com.qfedu.dcy.aspect.MySecondAspectj" id="aspectj"></bean><!-- 增强类 -->
+
+    <!-- 2.配置AOP操作 -->
+    <aop:config>
+        <!-- 2.1配置切入点 -->
+        <aop:pointcut expression= "execution(* com.qfedu.dcy.service.*..*(..))" id="pointcut1"/>
+
+        <!-- 2.2配置切面
+            把增强用到方法上面
+         -->
+        <aop:aspect ref="aspectj">
+            <!-- 配置增强类型
+                method:增强类中使用哪个方法 method
+            -->
+            <aop:before method="beforeUserService" pointcut-ref="pointcut1"/>
+            <aop:after-returning method="afterUserService" pointcut-ref="pointcut1"/>
+            <aop:after-throwing method="errorMsg" throwing="ex" pointcut-ref="pointcut1"/>
+        </aop:aspect>
+    </aop:config>
+
+
+
+</beans>

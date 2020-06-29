@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="entity" />
+        <module name="manager" />
+        <module name="interc" />
+        <module name="utils" />
+        <module name="aspectj" />
+        <module name="front" />
+        <module name="fifter" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="26_duanchuanyong" target="1.8" />
+      <module name="aspectj" target="1.8" />
+      <module name="entity" target="1.8" />
+      <module name="fifter" target="1.8" />
+      <module name="front" target="1.8" />
+      <module name="front (1)" target="1.8" />
+      <module name="interc" target="1.8" />
+      <module name="manager" target="1.8" />
+      <module name="super" target="1.8" />
+      <module name="utils" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
