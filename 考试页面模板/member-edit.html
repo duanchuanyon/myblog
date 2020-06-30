@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+      <script src="js/jquery.cookie.min.js"></script>
+  </head>
+  
+  <body>
+    <div class="x-body">
+        <form class="layui-form">
+          <div class="layui-form-item">
+              <label for="L_email" class="layui-form-label">
+                  <span class="x-red">*</span>邮箱
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_email" name="email" required="" lay-verify="email"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>将会成为您唯一的登入名
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_username" class="layui-form-label">
+                  <span class="x-red">*</span>昵称
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_username" name="username"  required="" lay-verify="nikename"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>新密码
+              </label>
+              <div class="layui-input-inline">
+                  <input type="password" id="L_pass" onblur="newpass()"
+                         onfocus="aaaa()"
+                         name="pass" required="" lay-verify="pass"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux" id="tishimima" >
+                  长度6到16个字符
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+                  <span class="x-red">*</span>确认新密码
+              </label>
+              <div class="layui-input-inline">
+                  <input type="password" id="L_repass"
+                         onblur="newrepass()"
+                         onfocus="bbbb()"
+                         name="repass" required="" lay-verify="repass"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux" id="tishiremima" >
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" id="updateSubmit" lay-filter="add" lay-submit="">
+                  修改提交
+              </button>
+          </div>
+      </form>
+    </div>
+    <script>var _hmt = _hmt || []; (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </body>
+    <script>
+        if ( $.cookie('user')!="admin" && $.cookie('user')==undefined || $.cookie('user')=='' ){
+            location.href="login.html";
+        }
+        $.ajax({
+            url:"http://localhost:8080/manager/adminQueryOne",
+            type:'get',
+            dataType: 'json',
+            xhrFields: {
+                // 跨域携带cookie
+                withCredentials: true
+            },
+            data:{id:location.href.substring(location.href.indexOf("=")+1)},
+            success:function (_data) {
+                console.log(_data);
+                $('#L_email').val(_data.email);
+                $('#L_username').val(_data.name);
+            }
+        })
+
+        //密码不能为空
+        function newpass() {
+            if ($('#L_pass').val()==null || $('#L_pass').val()==""){
+                $('#tishimima').html('密码不能为空');
+                return false
+            }
+            return true;
+        }
+
+        function aaaa() {
+            $('#tishimima').empty();
+            $('#tishimima').html();
+        }
+        //重复密码
+        function newrepass() {
+            var L_repass =$('#L_repass').val();
+            var L_pass=$('#L_pass').val()
+            if (L_repass!=L_pass){
+                $('#tishiremima').html('两次密码不一致');
+                return false;
+            }
+            return true;
+        }
+
+        function bbbb() {
+            $('#tishiremima').empty();
+            $('#tishiremima').html();
+        }
+
+        $('#updateSubmit').click(function () {
+            if (newpass() && newrepass()){
+                $.ajax({
+                    url:"http://localhost:8080/manager/adminUpd",
+                    type:'get',
+                    dataType: 'json',
+                    data:{id:location.href.substring(location.href.indexOf("=")+1),
+                            password:$('#L_pass').val(),
+                            email:$('#L_email').val(),
+                            name:$('#L_username').val()
+
+                    },
+                    xhrFields: {
+                        // 跨域携带cookie
+                        withCredentials: true
+                    },
+                    success:function (_data) {
+                        if (_data.code>0){
+                            location.href="member-list.html"
+                        }
+                    }
+                })
+            }
+        });
+
+
+    </script>
+
+</html>
