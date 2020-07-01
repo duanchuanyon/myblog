@@ -22,7 +22,7 @@
 
         <!-- 统一的依赖管理 -->
         <commons-lang3.version>3.5</commons-lang3.version>
-        <log4j.version>2.10.0</log4j.version>
+        <log4j.version>2.13.3</log4j.version>
         <spring.version>5.2.6.RELEASE</spring.version>
         <jackson.version>1.9.13</jackson.version>
     </properties>
